@@ -42,28 +42,17 @@ namespace SSJToYY.Model
         /// </summary>
         public string Remark = string.Empty;
 
-        /// <summary>
-        /// 关联ID
-        /// </summary>
-        public string RelevanceID = string.Empty;
-
         public YyjzData(SsjData ssjData)
         {
-            if (ssjData.DealType == "转出")
+            DealType = ssjData.DealType;
+            if(ssjData.DealType == "转账")
             {
-                DealType = "转账";
                 SubRecordType = "账户间转账";
                 PayAccount = ssjData.Account;
-            }
-            else if (ssjData.DealType == "转入")
-            {
-                DealType = "转账";
-                SubRecordType = "账户间转账";
-                ReceiveAccount = ssjData.Account;
+                ReceiveAccount = ssjData.Account2;
             }
             else
             {
-                DealType = ssjData.DealType;
                 SubRecordType = ssjData.SubRecordType;
                 PayAccount = ssjData.Account;
             }
@@ -71,7 +60,6 @@ namespace SSJToYY.Model
             Money = ssjData.Money;
             DataTime = ssjData.DataTime;
             Remark = ssjData.Remark;
-            RelevanceID = ssjData.RelevanceID;
         }
 
         public override string ToString()

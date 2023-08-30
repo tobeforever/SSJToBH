@@ -56,13 +56,9 @@ namespace SSJToYY
                     {
                         return (data.DealType != "支出" &&
                                 data.DealType != "收入" &&
-                                data.DealType != "转入" &&
-                                data.DealType != "转出") ||
-                               (data.DealType == "转入" && (string.IsNullOrEmpty(data.RelevanceID) || !ssjDataList.Exists(data2 =>
-                                data2.DealType == "转出" && data2.RelevanceID == data.RelevanceID)))
-                               ||
-                               (data.DealType == "转出" && (string.IsNullOrEmpty(data.RelevanceID) || !ssjDataList.Exists(data2 =>
-                                   data2.DealType == "转入" && data2.RelevanceID == data.RelevanceID)));
+                                data.DealType != "转账" ) ||
+                               (data.DealType == "转账" && string.IsNullOrEmpty(data.Account2)
+                               );
                     }
                 ).ToList();
 
@@ -81,7 +77,7 @@ namespace SSJToYY
                 // 输出合法数据记录数
                 Console.WriteLine($"合法支出数据条数：{ssjDataList.Count(data => data.DealType == "支出")}");
                 Console.WriteLine($"合法收入数据条数：{ssjDataList.Count(data => data.DealType == "收入")}");
-                Console.WriteLine($"合法转账数据条数：{ssjDataList.Count(data => data.DealType == "转出")}");
+                Console.WriteLine($"合法转账数据条数：{ssjDataList.Count(data => data.DealType == "转账")}");
 
                 #endregion
 
@@ -93,35 +89,8 @@ namespace SSJToYY
                 // 随手记数据处理为一羽记账数据
                 foreach (SsjData ssjData in ssjDataList)
                 {
-                    try
-                    {
-                        YyjzData? existData = null;
-                        if (!string.IsNullOrEmpty(ssjData.RelevanceID))
-                        {
-                            existData = bhjzDataList.FirstOrDefault(bhData => bhData.RelevanceID == ssjData.RelevanceID);
-                        }
-                        // 未添加
-                        if (existData == null)
-                        {
-                            bhjzDataList.Add(new YyjzData(ssjData));
-                        }
-                        // 已添加
-                        else
-                        {
-                            if (ssjData.DealType == "转出")
-                            {
-                                existData.PayAccount = ssjData.Account;
-                            }
-                            else if (ssjData.DealType == "转入")
-                            {
-                                existData.ReceiveAccount = ssjData.Account;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        // ignored
-                    }
+                    bhjzDataList.Add(new YyjzData(ssjData));
+
                 }
 
                 // 按时间排序
@@ -149,7 +118,7 @@ namespace SSJToYY
                     try
                     {
                         // 转账类型不提取分类关系
-                        if (ssjData.DealType is "转出" or "转入")
+                        if (ssjData.DealType is "转账")
                             continue;
 
                         // 识别父类

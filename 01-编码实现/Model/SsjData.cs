@@ -38,6 +38,11 @@ namespace SSJToYY.Model
         public string Account = string.Empty;
 
         /// <summary>
+        /// 账户2
+        /// </summary>
+        public string Account2 = string.Empty;
+
+        /// <summary>
         /// 货币种类
         /// </summary>
         public string CurrencyType = string.Empty;
@@ -62,27 +67,22 @@ namespace SSJToYY.Model
         /// </summary>
         public string Remark = string.Empty;
 
-        /// <summary>
-        /// 关联ID
-        /// </summary>
-        public string RelevanceID = string.Empty;
-
         public SsjData(string[] recodeData)
         {
-            if (recodeData.Length == 12)
+            if (recodeData.Length == 14)
             {
                 DealType = recodeData[0];
                 DateTime.TryParse(recodeData[1], out DataTime);
                 RecordType = recodeData[2];
                 SubRecordType = recodeData[3];
-                Project = recodeData[4];
-                Account = recodeData[5];
+                Account = recodeData[4];
+                Account2 = recodeData[5];
                 CurrencyType = recodeData[6];
                 double.TryParse(recodeData[7], out Money);
                 Member = recodeData[8];
                 Merchant = recodeData[9];
-                Remark = recodeData[10];
-                RelevanceID = recodeData[11];
+                Project = recodeData[11];
+                Remark = recodeData[13];
             }
             else
             {
@@ -92,12 +92,12 @@ namespace SSJToYY.Model
 
         public override string ToString()
         {
-            return $"{DealType},{DataTime:yyyy-MM-dd HH:mm:ss},{RecordType},{SubRecordType},{Project},{Account},{CurrencyType},{Money:f2},{Member},{Merchant},{Remark},{RelevanceID}";
+            return $"{DealType},{DataTime:yyyy-MM-dd HH:mm:ss},{RecordType},{SubRecordType},{Account},{Account2},{CurrencyType},{Money:f2},{Member},{Merchant},{Project},{Remark}";
         }
 
         public static string ToTitleString()
         {
-            return "交易类型,日期,类别,子类别,项目,账户,账户币种,金额,成员,商家,备注,关联Id";
+            return "交易类型,日期,类别,子类别,账户,账户2,账户币种,金额,成员,商家,项目,备注";
         }
     }
 }
