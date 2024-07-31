@@ -69,7 +69,7 @@ namespace SSJToYY.Model
 
         public SsjData(string[] recodeData)
         {
-            if (recodeData.Length == 14)
+            if (recodeData.Length >= 14)
             {
                 DealType = recodeData[0];
                 DateTime.TryParse(recodeData[1], out DataTime);
