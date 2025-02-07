@@ -42,6 +42,11 @@ namespace SSJToYY.Model
         /// </summary>
         public string Remark = string.Empty;
 
+        /// <summary>
+        /// 标签
+        /// </summary>
+        public string Label = string.Empty;
+
         public YyjzData(SsjData ssjData)
         {
             DealType = ssjData.DealType;
@@ -60,16 +65,17 @@ namespace SSJToYY.Model
             Money = ssjData.Money;
             DataTime = ssjData.DataTime;
             Remark = ssjData.Remark;
+            Label = ssjData.Project;
         }
 
         public override string ToString()
         {
-            return $"{DataTime:yyyy/MM/dd HH:mm},{DealType},{SubRecordType},{Money:f2},{PayAccount},{ReceiveAccount},{Remark}";
+            return $"{DataTime:yyyy/MM/dd HH:mm},{DealType},{SubRecordType},{Money:f2},{PayAccount},{ReceiveAccount},{Remark},,{Label},,,,";
         }
 
         public static string ToTitleString()
         {
-            return "日期,类型,分类,金额,账户,账户2,备注";
+            return "日期,类型,分类,金额,账户,账户2,备注,账单图片,标签,手续费,优惠,不计预算,不计收支";
         }
     }
 }
